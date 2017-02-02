@@ -1,0 +1,10 @@
+#!/bin/sh
+[ -z $BUILDROOT ] && exit 0
+
+cp $BUILDROOT/output/build/linux-custom/arch/arm/boot/uImage.irz-ruh2b ./fw/uImage.RUH2b
+rm ./fw/fsImage.RUH2b
+mksquashfs $BUILDROOT/board/irz/ruh2b/skeleton ./fw/fsImage.RUH2b -comp xz
+md5sum ./fw/*.RUH2b | sed -e 's/.\/fw\///g' > ./fw/update.md5
+cd fw
+tar -cvf ../firmware.bin *
+cd ..
